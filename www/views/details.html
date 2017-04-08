@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+  
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="icon" href="../img/favicon.ico" />
+
+  <title>Nulla suscipit eu enim quis dignissim - PubApp</title>
+
+  <!-- fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Poiret+One|Lato|Open+Sans|Oxygen" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  
+  <!-- Bootstrap core CSS -->
+  <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap theme -->
+  <link href="../lib/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
+  <!-- Angular CSP-->
+  <link href="../lib/angular/css/angular-csp.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="../css/style.css?v=1" rel="stylesheet" />
+  <link href="../css/body.css?v=2" rel="stylesheet" />
+  <link href="../css/footer.css?v=3" rel="stylesheet" />
+  <link href="../css/comments.css?v=3" rel="stylesheet" />
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="lib/html5shiv/html5shiv.min.js"></script>
+    <script src="lib/respond/respond.min.js"></script>
+  <![endif]-->
+
+  <!-- jquery -->
+  <script src="../lib/jquery/js/jquery.min.js"></script>
+
+  <!-- require -->
+  <script src="../lib/require/require.js"></script>
+
+  <!-- angularjs -->
+  <script src="../lib/angular/js/angular.js"></script>
+  <script src="../lib/angular/js/angular-animate.js"></script>
+  <script src="../lib/angular/js/angular-ui-router.js"></script>
+  <script src="../lib/angular/js/angular-ui-bootstrap-tpls.js"></script>
+  <script src="../lib/angular-scroll/js/angular-scroll.min.js""></script>
+
+  <!-- bootstrap material design -->
+  <link rel="stylesheet" type="text/css" href="../lib/bootstrap-material-design/css/bootstrap-material-design.min.css">
+  <link rel="stylesheet" type="text/css" href="../lib/bootstrap-material-design/css/ripples.min.css">
+  
+  <script src="../js/app.js"></script>
+  <script src="../js/app-constants.js"></script>
+  <script src="../js/app-article-list.js"></script>
+  <script src="../js/app-article-details.js"></script>
+  <script src="../js/app-accounts.js"></script>
+  <script src="../js/nav-controller.js"></script>
+  <script src="../js/angular-inview.js"></script>
+</head>
+
+<body ng-controller="articleDetailsController">
+
+<!-- START NAVIGATION BAR -->
+<!-- TOP BAR -->
+<nav class="navbar nav-bar-style top-bar color-black" id="topBar" role="navigation">
+  <div class="top-container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="../index.html" id="site_title">
+        <img src="../img/logo.svg" alt="" id="brandLogo"><span>&ensp;<h1 class="site-title">PUBAPP</h1></span>
+      </a>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarTop" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarTop">
+      <ul class="nav navbar-nav">
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="../views/register.html" title="Register">Register</a></li>
+        <li><a href="../views/login.html" title="Login">Login</a></li>
+        <li class="searchButtonLi" title="Search">
+          <form id="searchBar">
+            <input id="searchInput" type="search" placeholder="Search">
+          </form>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- THEMES BAR -->
+<nav class="navbar themes-bar nav-bar-style text-left-align card-1" id="themesBar" ng-controller="navController">
+  <div class="top-container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarBottom" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <script type="text/ng-template" id="nav-item.html">
+      <span ng-if="page.name && !page.url">{{page.name}}</span>
+      <a ng-if="page.name && page.url && !(page.subPages && page.subPages.length)" href="{{page.url}}">{{page.name}}</a>
+      <a ng-if="page.name && page.url && page.subPages && page.subPages.length" href="{{page.url}}" data-toggle="dropdown" role="button" aria-expanded="false"
+      class="dropdown-toggle">{{page.name}} <span class="caret"></span>
+      </a>
+      <ul ng-if="page.subPages && page.subPages.length" class="dropdown-menu" role="menu">
+        <li ng-class="{'divider': !page.name && !page.url, 'dropdown-header': page.name && !page.url, active: isUrl(page.url)}" ng-repeat="page in page.subPages" ng-include="'nav-item.html'">
+        </li>
+      </ul>
+    </script>
+    <div id="navbar" class="collapse navbar-collapse" id="navbarBottom">
+      <ul class="nav navbar-nav themesBar">
+        <li ng-repeat="page in themesList" ng-class="{active: isUrl(page.url)}" ng-include="'nav-item.html'">
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- END NAVIGATION BAR -->
+<!-- TOP BAR -->
+
+
+<div class="ui-view-container">
+<div class="container">
+<div class="col-xs-12 col-md-10 col-md-offset-1" style="margin-bottom: 80px;">
+	<div class="row">
+		<div class="article-pod article-details">
+            <div class="article-top">
+                <a href="#">
+                    <img src="../img/articles/authors/author.jpg" alt="" />
+                </a>
+                <div class="article-title">
+                    <a href="#">Rebecca Manning</a>
+                    <br/>
+                    <div class="date_details">
+                        Sunday Feb 05, 2017
+                        <br/>
+                        12:10pm
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+            	<div class="article-intro">
+                    Nulla suscipit eu enim quis dignissim
+                </div>
+                <div class="article-picture">
+                    <picture>
+                        <source class="full-article-img" srcset="../img/articles/ducks_sm.jpg" media="(max-width: 300px)" title="{{article.intro}}"/>
+                        <source class="full-article-img" srcset="../img/articles/ducks_md.jpg" media="(max-width: 500px)" title="{{article.intro}}"/>
+                        <source class="full-article-img" srcset="../img/articles/ducks_lg.jpg" media="(max-width: 500px)" title="{{article.intro}}"/>
+                        <img class="full-article-img" src="../img/articles/ducks.jpg" />
+                    </picture>
+                </div>
+                <div class="article-footer">
+                    <div class="article-likes">
+                        <button type="button" class="btn btn-primary" title="I like this!" ng-click="toggleLikeArticle(article);" ng-class="{'selected': article.thumbsUp != null}">
+                            <span class="glyphicon glyphicon-thumbs-up"></span>                  
+                        </button>
+                        <span class="label label-default" ng-if="article.thumbsUp">You liked this</span>
+                    </div>
+                    <div class="article-font-select">
+                        <p class="font-size-label">Font size:</p>
+                        <p id="font-size"></p>
+                        <button class="btn btn-md" id="down" ng-click="decrementFont()">-</button>
+                        <button class="btn btn-md" id="up" ng-click="incrementFont()">+</button>
+                    </div>
+                    <div class="article-comments">
+                        <button type="button" class="btn btn-primary disabled" title="Number of comments">
+                            <span class="glyphicon glyphicon-comment">&ensp;
+                            </span> <span class="badge">{{numComments}}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- START ARTICLE CONTENT -->
+            <div class="article-main-content" ng-style="{'font-size': fontSize + 'px'}">
+            	
+                <p class="formatted-p">Lorem ipsum dolor sit amet, impedit vulputate cu vel. Tota adversarium quo cu, ei sea velit vitae antiopam. Vis explicari disputando id. Cu qui vidisse evertitur delicatissimi, at graeco theophrastus eos. Hinc tincidunt adolescens nec ut, per suas noluisse no, in nisl fuisset vix.
+                </p>
+                <p>
+                    Minim phaedrum ad pri, te quo porro commune, timeam nusquam in sit. Per assum iusto eloquentiam ex, pri consulatu expetendis in. Usu et porro sententiae. Etiam propriae sed cu. Propriae recusabo principes an qui, cum ad case altera. Ei nam quod summo congue, est mentitum repudiare te.
+                </p>
+                <p>
+                    Esse aliquando quo ei. Epicuri efficiendi pri id. Nam nisl rebum moderatius ne, vis et stet consequat scribentur. Quando quodsi ex usu, eam an vitae denique, id malis torquatos temporibus sea. Mucius antiopam et cum, ei graece verear aliquip eos, vis cu probo dicant. Pri cu inani inermis vivendo, duo in elitr definitionem.
+                </p>
+                <p>
+                    No nostro periculis corrumpit cum, meis efficiantur has no. Te errem ubique nam, porro recusabo comprehensam est in. Has harum tempor nonumes et, choro iudico in his. Sed choro dolorum copiosae id. Saepe atomorum vis ea, nominati gubergren persecuti ne pro. Nihil aliquam dissentiet ea duo. Autem appareat honestatis has cu, quas paulo viderer usu cu.
+                </p>
+
+                <figure class="article-details-figure">
+                  <picture>
+                    <source class="img-responsive full-article-img" srcset="../img/articles/old-man-sm.jpg" media="(max-width: 300px)" title="{{article.intro}}" />
+                    <source class="img-responsive full-article-img" srcset="../img/articles/old-man-md.jpg" media="(max-width: 500px)" title="{{article.intro}}" />
+                    <source class="img-responsive full-article-img" srcset="../img/articles/old-man-lg.jpg" media="(max-width: 700px)" title="{{article.intro}}" />
+                    <img class="img-responsive full-article-img" src="../img/articles/old-man.jpg" />
+                  </picture>
+                  <figcaption><i>Figure 1.</i> Propriae recusabo principes an qui, cum ad case altera.</figcaption>
+                </figure>
+                <p>
+                    Te usu elitr accumsan, ignota latine apeirian sea eu. An volutpat similique est, sed possit feugiat ne. Ex ius autem posidonium. Vix ea perpetua intellegam, cum elit omnium ea, duo cu nisl case. Cum ex quas doctus, invidunt volutpat quo et.
+                </p>
+                <p>
+                    Ei mel vitae labores ponderum, eu nec etiam audire. Ius ei rebum choro, viris solet vim id, alii simul altera in eam. Quo legere blandit phaedrum no. Ei nam duis adhuc doming. Ex eam utamur persius, qui animal efficiantur ad. Molestiae deseruisse intellegam at mea, quem commodo invenire cu duo.
+                </p>
+                <p>Lorem ipsum dolor sit amet, impedit vulputate cu vel. Tota adversarium quo cu, ei sea velit vitae antiopam. Vis explicari disputando id. Cu qui vidisse evertitur delicatissimi, at graeco theophrastus eos. Hinc tincidunt adolescens nec ut, per suas noluisse no, in nisl fuisset vix.
+                </p>
+                <p class="formatted-p">
+                    Minim phaedrum ad pri, te quo porro commune, timeam nusquam in sit. Per assum iusto eloquentiam ex, pri consulatu expetendis in. Usu et porro sententiae. Etiam propriae sed cu. Propriae recusabo principes an qui, cum ad case altera. Ei nam quod summo congue, est mentitum repudiare te.
+                </p>
+                <p>
+                    Esse aliquando quo ei. Epicuri efficiendi pri id. Nam nisl rebum moderatius ne, vis et stet consequat scribentur. Quando quodsi ex usu, eam an vitae denique, id malis torquatos temporibus sea. 
+                    Mucius antiopam et cum, ei graece verear aliquip eos, vis cu probo dicant. Pri cu inani inermis vivendo, duo in elitr definitionem.
+                </p>
+
+                <figure class="article-details-wrap left">
+                  <picture>
+                    <source class="img-responsive full-article-img" srcset="../img/articles/athlete-md.jpg" media="(max-width: 700px)" title="{{article.intro}}" />
+                    <img class="img-responsive" src="../img/articles/athlete.jpg" />
+                  </picture>
+
+                  <figcaption><i>Figure 2.</i> Propriae recusabo principes an qui, cum ad case altera.</figcaption>
+                </figure>
+
+                <p>
+                    No nostro periculis corrumpit cum, meis efficiantur has no. Te errem ubique nam, porro recusabo comprehensam est in. Has harum tempor nonumes et, choro iudico in his. Sed choro dolorum copiosae id. Saepe atomorum vis ea, nominati gubergren persecuti ne pro. Nihil aliquam dissentiet ea duo. Autem appareat honestatis has cu, quas paulo viderer usu cu.
+                </p>
+                <p>
+                    Te usu elitr accumsan, ignota latine apeirian sea eu. An volutpat similique est, sed possit feugiat ne. Ex ius autem posidonium. Vix ea perpetua intellegam, cum elit omnium ea, duo cu nisl case. Cum ex quas doctus, invidunt volutpat quo et.
+                </p>
+                <p>
+                    Ei mel vitae labores ponderum, eu nec etiam audire. Ius ei rebum choro, viris solet vim id, alii simul altera in eam. Quo legere blandit phaedrum no. Ei nam duis adhuc doming. Ex eam utamur persius, qui animal efficiantur ad. Molestiae deseruisse intellegam at mea, quem commodo invenire cu duo.
+                </p>
+                <p class="formatted-p">Lorem ipsum dolor sit amet, impedit vulputate cu vel. Tota adversarium quo cu, ei sea velit vitae antiopam. Vis explicari disputando id. Cu qui vidisse evertitur delicatissimi, at graeco theophrastus eos. Hinc tincidunt adolescens nec ut, per suas noluisse no, in nisl fuisset vix.
+                </p>
+
+                <p>
+                    Minim phaedrum ad pri, te quo porro commune, timeam nusquam in sit. Per assum iusto eloquentiam ex, pri consulatu expetendis in. Usu et porro sententiae. Etiam propriae sed cu. Propriae recusabo principes an qui, cum ad case altera. Ei nam quod summo congue, est mentitum repudiare te.
+                </p>
+                <p>
+                    Esse aliquando quo ei. Epicuri efficiendi pri id. Nam nisl rebum moderatius ne, vis et stet consequat scribentur. Quando quodsi ex usu, eam an vitae denique, id malis torquatos temporibus sea. Mucius antiopam et cum, ei graece verear aliquip eos, vis cu probo dicant. Pri cu inani inermis vivendo, duo in elitr definitionem.
+                </p>
+                <figure class="article-details-wrap right">
+                  <picture>
+                    <source class="img-responsive full-article-img" srcset="../img/articles/beach-md.jpg" media="(max-width: 700px)" title="{{article.intro}}" />
+                    <img class="img-responsive" src="../img/articles/beach.jpg" />
+                  </picture>
+                  <figcaption><i>Figure 3.</i> Propriae recusabo principes an qui, cum ad case altera.</figcaption>
+                </figure>
+
+                <p>
+                    No nostro periculis corrumpit cum, meis efficiantur has no. Te errem ubique nam, porro recusabo comprehensam est in. Has harum tempor nonumes et, choro iudico in his. Sed choro dolorum copiosae id. Saepe atomorum vis ea, nominati gubergren persecuti ne pro. Nihil aliquam dissentiet ea duo. Autem appareat honestatis has cu, quas paulo viderer usu cu.
+                </p>
+                <p class="formatted-p">
+                    Te usu elitr accumsan, ignota latine apeirian sea eu. An volutpat similique est, sed possit feugiat ne. Ex ius autem posidonium. Vix ea perpetua intellegam, cum elit omnium ea, duo cu nisl case. Cum ex quas doctus, invidunt volutpat quo et. Has harum tempor nonumes et, choro iudico in his. 
+                </p>
+                <p>
+                    Ei mel vitae labores ponderum, eu nec etiam audire. Ius ei rebum choro, viris solet vim id, alii simul altera in eam. Quo legere blandit phaedrum no. Ei nam duis adhuc doming. Ex eam utamur persius, qui animal efficiantur ad. Molestiae deseruisse intellegam at mea, quem commodo invenire cu duo.
+                </p>
+
+
+            </div>
+            <!-- END ARTICLE CONTENT -->
+
+            <div class="" style="margin-top: 40px;">
+                Sunday Feb 05, 2017 12:10pm
+            </div>
+		</div>
+	</div>
+
+    <hr>
+
+    <div class="placeholder">
+    </div>
+
+	<!-- START COMMENTS -->   
+
+<div class="row" id="commentsBox">
+    <div class="comments-container">
+    <h2 in-view="$inview && getComments()">Comments ({{numComments}})</h2>
+
+    <div uib-alert ng-hide="!alert" ng-class="'custom-alert alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}
+      <a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    </div>
+
+
+    <button class="btn btn-lg btn-block comment-view-ctrl no-animate" ng-show="showing">
+      <i class="fa fa-spinner fa-spin fa-fw"></i>&ensp;Retrieving comments..
+    .</button> 
+
+    <!--
+    <button class="btn btn-lg btn-block comment-view-ctrl no-animate" ng-show="showing" ng-click="hideComments();"><i class="fa fa-minus-square-o" aria-hidden="true"></i>&ensp;Hide comments</button> -->
+
+    <div class="comments-main">
+      <ul class="comments-list">
+        <li ng-animate="'animate'" ng-repeat="comment in comments | orderBy: 'comment.date'">
+          <div class="comment-box">
+            <div class="comment-avatar">
+              <img src="../img/articles/avatar.png" alt="Avatar for {{comment.firstName}} {{comment.lastName}}">
+            </div>
+            <div class="comment-content">
+              <div class="comment-header">
+                <a href="#">{{comment.firstName}} {{comment.lastName}}</a>
+                
+                <span class="comment-email">&ensp;{{comment.email}}</span>
+
+                <span class="pull-right">&ensp;{{convertToReadableDate(comment.date.toDateString())}} {{comment.time}}</span>
+              </div>
+              <div class="comment-content">
+                {{comment.comment}}
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <div class="widget-area no-padding blank">
+        <div class="status-upload">
+          <form name="commentUploadForm">
+            <h3 class="form-group"><i class="fa fa-spinner fa-spin fa-fw new-comment-indicator" ng-show="uploading"></i> Leave a comment</h3>
+
+            <div class="col-sm-6 form-group label-placeholder is-empty">
+                      <label for="firstName" class="control-label">First name</label>
+                      <input class="form-control" type="text" id="fName" required ng-model="newComment.firstName" />
+                  </div>
+                  <div class="col-sm-6 form-group label-placeholder is-empty">
+                      <label for="lastName" class="control-label">Last name</label>
+                      <input class="form-control" type="text" id="lName" required ng-model="newComment.lastName" />
+                  </div>
+                  <div class="col-sm-12 form-group label-placeholder is-empty">
+                      <label for="email" class="control-label">E-mail address</label>
+                      <input class="form-control" type="email" name='email' id="email" required ng-model="newComment.email" />
+                  </div>
+                  <div class="col-sm-12 form-group comment-footer">
+                    <label class="form-group" id="leaveCommentLabel">Comment:</label>
+              <textarea id="comment_body" type="text" placeholder="Pri cu inani inermis vivendo, duo in elitr definitionem." ng-keyup="checkWordLen(this);" name="commentBody" required ng-model="newComment.comment"></textarea>
+
+              <div class="bottom">
+                <span style="vertical-align: middle;">
+                  {{wordsLeft}} words remaining.
+                </span>
+                <button type="submit" class="btn btn-success green" ng-click="uploadNewComment()" ng-disabled="commentUploadForm.$invalid || wordsLeft > 120"><i class="fa fa-share"></i> submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END COMMENTS -->
+</div>
+</div>
+
+<div ng-controller="appController">
+  <a href="" id="return-to-top" title="Return to top" ng-click="scrollToCustomPos(0);" du-smooth-scroll>
+    <i class="fa fa-chevron-up"></i>
+  </a>
+</div>
+</div>
+
+<!-- START FOOTER -->
+<footer class="footer-distributed card-1">
+<div class="container">
+
+  <div class="footer-left">
+
+    <div class="row">
+      <a id="logoFooter" href="#">
+          <span>
+            <img src="../img/logo.svg" alt="" id="brandLogo"><span>&ensp;<h1 class="site-title">PUBAPP</h1>
+          </span>
+      </a>
+    </div>
+
+    <p class="footer-links">
+      <a href="../index.html">Home</a>
+      ·
+      <a href="register.html">Register</a>
+      ·
+      <a href="login.html">Log in</a>
+    </p>
+
+    <p class="footer-company-name">{{SITE_TITLE}}, All Rights Reserved {{YEAR}}</p>
+  </div>
+
+  <div class="footer-center">
+
+    <div>
+      <i class="fa fa-map-marker" style="color: #F16194;"></i>
+      <p><span>123 Evercrest Lane</span> City, Country</p>
+    </div>
+
+    <div>
+      <i class="fa fa-phone" style="color: #BD61F1;"></i>
+      <p>+0 123 456789</p>
+    </div>
+
+    <div>
+      <i class="fa fa-envelope" style="color: #61F1AB;"></i>
+      <p><a href="mailto:support@{{SITE_TITLE | lowercase}}.com">support@{{SITE_TITLE | lowercase}}.com</a></p>
+    </div>
+
+  </div>
+
+  <div class="footer-right">
+
+    <p class="footer-company-about">
+      <span>About us</span>
+      Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet.
+    </p>
+
+    <div class="footer-icons">
+
+      <a href="#"><i class="fa fa-facebook"></i></a>
+      <a href="#" ><i class="fa fa-twitter"></i></a>
+      <a href="#"><i class="fa fa-linkedin"></i></a>
+      <a href="#"><i class="fa fa-github"></i></a>
+
+    </div>
+
+  </div>
+
+</div>
+</footer>
+<!-- END FOOTER -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../lib/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+<!-- bootstrap material design -->
+<script src="../lib/bootstrap-material-design/js/material.min.js"></script>
+<script src="../lib/bootstrap-material-design/js/ripples.min.js"></script>
+
+<!-- jquery visible plugin -->
+<script src="../lib/jquery-visible/js/jquery.visible.js""></script>
+
+<script>
+  $(function() {
+    $.material.init();
+  });
+</script>
+
+</body>
+</html>

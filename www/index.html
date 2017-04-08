@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en" ng-app="app">
+<head>
+  
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="icon" href=" img/favicon.ico" />
+
+  <title>Home - PubApp</title>
+
+  <!-- fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Poiret+One|Lato|Open+Sans|Oxygen" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  
+  <!-- Bootstrap core CSS -->
+  <link href=" lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap theme -->
+  <link href=" lib/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
+  <!-- Angular CSP-->
+  <link href=" lib/angular/css/angular-csp.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href=" css/style.css?v=1" rel="stylesheet" />
+  <link href=" css/body.css?v=2" rel="stylesheet" />
+  <link href=" css/footer.css?v=3" rel="stylesheet" />
+  <link href=" css/comments.css?v=3" rel="stylesheet" />
+ <!-- bootstrap material design -->
+  <link rel="stylesheet" type="text/css" href=" lib/bootstrap-material-design/css/bootstrap-material-design.min.css">
+  <link rel="stylesheet" type="text/css" href=" lib/bootstrap-material-design/css/ripples.min.css">
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="lib/html5shiv/html5shiv.min.js"></script>
+    <script src="lib/respond/respond.min.js"></script>
+  <![endif]-->
+
+  <!-- jquery -->
+  <script src=" lib/jquery/js/jquery.min.js"></script>
+
+  <!-- require -->
+  <script src=" lib/require/require.js"></script>
+
+  <!-- angularjs -->
+  <script src="lib/angular/js/angular.js"></script>
+  <script src="lib/angular/js/angular-animate.js"></script>
+  <script src="lib/angular/js/angular-ui-router.js"></script>
+  <script src="lib/angular/js/angular-ui-bootstrap-tpls.js"></script>
+  <script src="lib/angular-scroll/js/angular-scroll.min.js""></script>
+
+  <!-- business logic -->
+  <script src=" js/app.js"></script>
+  <script src=" js/app-constants.js"></script>
+  <script src=" js/app-article-list.js"></script>
+  <script src=" js/app-article-details.js"></script>
+  <script src=" js/app-accounts.js"></script>
+  <script src=" js/nav-controller.js"></script>
+  <script src=" js/angular-inview.js"></script>
+</head>
+
+<body>
+
+<!-- START NAVIGATION BAR -->
+<!-- TOP BAR -->
+<nav class="navbar nav-bar-style top-bar color-black" id="topBar" role="navigation">
+  <div class="top-container">
+    <div class="navbar-header">
+      <a class="navbar-brand" ui-sref="home" id="site_title">
+        <img src=" img/logo.svg" alt="" id="brandLogo"><span>&ensp;<h1 class="site-title">PUBAPP</h1></span>
+      </a>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarTop" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarTop">
+      <ul class="nav navbar-nav">
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href=" views/register.html" title="Register">Register</a></li>
+        <li><a href=" views/login.html" title="Login">Login</a></li>
+        <li class="searchButtonLi" title="Search">
+          <form id="searchBar">
+            <input id="searchInput" type="search" placeholder="Search">
+          </form>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- THEMES BAR -->
+<nav class="navbar themes-bar nav-bar-style text-left-align card-1" id="themesBar" ng-controller="navController">
+  <div class="top-container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarBottom" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <script type="text/ng-template" id="nav-item.html">
+      <span ng-if="page.name && !page.url">{{page.name}}</span>
+      <a ng-if="page.name && page.url && !(page.subPages && page.subPages.length)" href="{{page.url}}">{{page.name}}</a>
+      <a ng-if="page.name && page.url && page.subPages && page.subPages.length" href="{{page.url}}" data-toggle="dropdown" role="button" aria-expanded="false"
+      class="dropdown-toggle">{{page.name}} <span class="caret"></span>
+      </a>
+      <ul ng-if="page.subPages && page.subPages.length" class="dropdown-menu" role="menu">
+        <li ng-class="{'divider': !page.name && !page.url, 'dropdown-header': page.name && !page.url, active: isUrl(page.url)}" ng-repeat="page in page.subPages" ng-include="'nav-item.html'">
+        </li>
+      </ul>
+    </script>
+    <div id="navbar" class="collapse navbar-collapse" id="navbarBottom">
+      <ul class="nav navbar-nav themesBar">
+        <li ng-repeat="page in themesList" ng-class="{active: isUrl(page.url)}" ng-include="'nav-item.html'">
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- END NAVIGATION BAR -->
+
+<div class="ui-view-container" ng-controller="appController">
+  <div class="parallax_container">
+    <div class="parallax inset-shadow" id="homepageParallax">   
+      <div class="col-sm-12 col-md-12 col-lg-12 full-height">
+        <div class="inner-content">
+          <hgroup>
+            Praesent volutpat viverra condimentum maecenas.
+            <button class="btn btn-primary" title="Get started">Get started</button>
+          </hgroup>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container main-content" ng-controller="articleListController">
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+      <div class="" ng-repeat="article in articles track by $index">
+          <div class="panel panel-default article-pod ng-scope">
+              <div class="article-top">
+                  <a href="#">
+                      <img src=" img/articles/authors/author.jpg" alt="">
+                  </a>
+                  <div class="article-title">
+                      <a href="#" class="ng-binding">Rebecca Manning</a>
+                      <br>
+                      <div class="date_details ng-binding">
+                          Sunday Feb 05, 2017<br>
+                          12:10pm
+                      </div>
+                  </div>
+              </div>
+              <div class="panel-body">
+                  <div class="article-picture">
+                      <a href=" views/details.html">
+                          <picture>
+                              <source class="grayscale" srcset=" img/articles/ducks_sm.jpg" media="(max-width: 300px)" title="Nulla suscipit eu enim quis dignissim">
+                              <source class="grayscale" srcset=" img/articles/ducks_md.jpg" media="(max-width: 700px)" title="Nulla suscipit eu enim quis dignissim">
+                              <img class="grayscale" src=" img/articles/ducks.jpg">
+                          </picture>
+                      </a>
+                  </div>
+                  <div class="article-intro">
+                      <a href="views/details.html" class="ng-binding">Nulla suscipit eu enim quis dignissim</a>
+                  </div>
+                  <div class="article-read-more">
+                      <a href="views/details.html">read more...</a>
+                  </div>
+                  <div class="article-footer">
+                      <div class="article-likes">
+                          <button type="button" class="btn btn-primary" title="I like this!" ng-click="toggleLikeArticle(article, $index)" ng-class="{'selected': article.thumbsUp != null}">
+                              <span class="glyphicon glyphicon-thumbs-up"></span>                  
+                          </button>
+                          <span class="label label-default" ng-if="articles[$index].thumbsUp">You liked this</span>
+                          <!-- ngIf: article.thumbsUp -->
+                      </div>
+                      <div class="article-comments">
+                          <a type="button" class="btn btn-primary" title="Number of comments" href="views/details.html">
+                              <span class="glyphicon glyphicon-comment"> 
+                              </span> <span class="badge">{{numComments}}</span>
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+    </div>
+    <!-- START PAGINATION -->
+    <div class="center">
+      <ul class="pagination">
+        <li><a href="#">«</a></li>
+        <li><a class="active" href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#">6</a></li>
+        <li><a href="#">7</a></li>
+        <li><a href="#">»</a></li>
+      </ul>
+    </div>
+    <!-- END PAGINATION -->
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 sidebar">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Mucius antiopam antiatum</h4> 
+            </div>
+        <div class="panel-body">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam scelerisque turpis eget porta tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+            </p>
+            <ul>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+
+            </ul>
+            <hr>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam scelerisque turpis eget porta tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris lacinia turpis aliquam, tempus risus vitae, euismod metus.
+            </p>
+            
+        </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 sidebar">
+        <div class="panel panel-default">
+            <div class="panel-body social-sidebar" data-spy="affix" data-offset-top="970">
+                <ul>
+                      <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                      <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                      <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                      <li><a href="#"><i class="fa fa-github"></i></a></li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  </div> <!-- end container -->
+
+  <a href="" id="return-to-top" title="Return to top" ng-click="scrollToCustomPos(0);" du-smooth-scroll>
+    <i class="fa fa-chevron-up"></i>
+  </a>
+</div> <!-- end ui-view-container -->
+
+<div class="tempMargin"></div>
+
+<!-- START FOOTER -->
+<footer class="footer-distributed card-1" ng-controller="appController">
+<div class="container">
+
+  <div class="footer-left">
+
+    <div class="row">
+      <a id="logoFooter" href="#">
+          <span>
+            <img src=" img/logo.svg" alt="" id="brandLogo"><span>&ensp;<h1 class="site-title">PUBAPP</h1>
+          </span>
+      </a>
+    </div>
+
+    <p class="footer-links">
+      <a href="#">Home</a>
+      ·
+      <a href="views/register.html">Register</a>
+      ·
+      <a href="views/login.html">Log in</a>
+    </p>
+
+    <p class="footer-company-name">{{SITE_TITLE}}, All Rights Reserved {{YEAR}}</p>
+  </div>
+
+  <div class="footer-center">
+
+    <div>
+      <i class="fa fa-map-marker" style="color: #F16194;"></i>
+      <p><span>123 Evercrest Lane</span> City, Country</p>
+    </div>
+
+    <div>
+      <i class="fa fa-phone" style="color: #BD61F1;"></i>
+      <p>+0 123 456789</p>
+    </div>
+
+    <div>
+      <i class="fa fa-envelope" style="color: #61F1AB;"></i>
+      <p><a href="mailto:support@{{SITE_TITLE | lowercase}}.com">support@{{SITE_TITLE | lowercase}}.com</a></p>
+    </div>
+
+  </div>
+
+  <div class="footer-right">
+
+    <p class="footer-company-about">
+      <span>About us</span>
+      Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet.
+    </p>
+
+    <div class="footer-icons">
+
+      <a href="#"><i class="fa fa-facebook"></i></a>
+      <a href="#" ><i class="fa fa-twitter"></i></a>
+      <a href="#"><i class="fa fa-linkedin"></i></a>
+      <a href="#"><i class="fa fa-github"></i></a>
+
+    </div>
+
+  </div>
+
+</div>
+</footer>
+<!-- END FOOTER -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src=" lib/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src=" lib/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+<!-- bootstrap material design -->
+<script src=" lib/bootstrap-material-design/js/material.min.js"></script>
+<script src=" lib/bootstrap-material-design/js/ripples.min.js""></script>
+
+<script>
+  $(function() {
+    $.material.init();
+  });
+</script>
+
+</body>
+</html>

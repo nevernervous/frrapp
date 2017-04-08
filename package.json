@@ -1,0 +1,45 @@
+{
+  "name": "pubapp",
+  "version": "0.0.1",
+  "description": "A system for publishing articles organized by content.",
+  "main": "index.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "angular-scroll": "^1.0.0",
+    "browser-sync": "^2.18.7",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-angular-filesort": "^1.1.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-cache": "^0.4.5",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-exec": "^2.1.3",
+    "gulp-if": "^2.0.2",
+    "gulp-imagemin": "^3.1.1",
+    "gulp-inject": "^4.2.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-prompt": "^0.2.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-shell": "^0.5.2",
+    "gulp-sourcemaps": "^2.4.1",
+    "gulp-uglify": "^2.0.1",
+    "gulp-useref": "^3.1.2",
+    "node-sparrest": "0.0.10",
+    "run-sequence": "^1.2.2"
+  },
+  "scripts": {
+    "sparrest": "node ./node_modules/node-sparrest/node-sparrest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ttmtran/pubapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ttmtran/pubapp/issues"
+  },
+  "homepage": "https://github.com/ttmtran/pubapp#readme"
+}

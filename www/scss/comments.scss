@@ -1,0 +1,256 @@
+.comments-container {
+	width: 90%;
+	margin: 0 auto;
+	margin-bottom: 20px;
+	hr {
+		padding-bottom: 0px;
+	}
+	.alert {
+		color: black !important;
+		a {
+			color: black !important;
+		}
+	}
+}
+
+@mixin material-shadow {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+@mixin material-shadow-hover {
+	box-shadow: 0 5px 28px rgba(0,0,0,0.1), 0 5px 5px rgba(0,0,0,0.22);
+}
+
+.comments-list {
+	list-style: none;
+	padding-left: 0;
+
+	.comment-box {
+		position: relative;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		border-radius: 20px;
+		@include material-shadow;
+		padding: 4px;
+		background-color: #fff;
+
+		&:hover {
+			@include material-shadow-hover;
+		}
+
+		.comment-avatar {
+
+			float: left;
+			margin: 8px;
+			height: 100%;
+
+			img {
+				width: 58px;
+				height: 58px;
+			}
+		}
+
+		.comment-content {
+			width: 100%;
+			display: block;
+			padding: 5px;
+
+		}
+
+		.comment-header {
+			padding: 5px;
+
+			a {
+				color: green;
+				&:hover,
+				&:active,
+				&:focus {
+					color: pink;
+					text-decoration: none;
+				}
+			}
+
+			.fa {
+				font-size: 1.3em;
+			}
+
+			.comment-email {
+				font-style: italic;
+			}
+		}
+	}
+}
+
+/************* LEAVE A COMMENT BOX ****************/
+.comment-view-ctrl {
+	font-weight: 500 !important;
+	font-size: 1.5em !important;
+	margin-bottom: 30px !important;
+	background-color: #e2e2e2 !important;
+
+	&:hover {
+		background-color: white !important;
+	}
+}
+
+.widget-area {
+
+	margin-top: 50px !important;
+	position: relative;
+	width: 85%;
+	margin: 10px auto;
+	color: #3b3a36 !important;
+
+	h3 {
+		padding: 5px !important;
+		margin-left: 10px !important;
+		margin-bottom: 15px !important;
+		color: #3b3a36;
+		text-align: center;
+		font-size: 2.5em;
+	}
+	label.direction {
+		padding: 10px;
+		width: 100%;
+		margin-left: 10px;
+		color: black;
+		font-weight: 500;
+	}
+
+	#leaveCommentLabel {
+		padding-bottom: 1px !important;
+		text-align: center;
+	}
+
+	.form-group {
+		margin-left: 40px;
+	}
+
+	.control-label {
+		
+	}
+
+	.status-upload {
+		background-color: #f9f9f9;
+		float: left;
+		width: 100%;
+		padding: 10px;
+		@include material-shadow;
+
+		&:hover {
+			@include material-shadow-hover;
+		}
+	}
+	.status-upload form {
+		float: left;
+		width: 100%;
+	}
+	.status-upload form textarea {
+		background: none repeat scroll 0 0 #fff;
+		border: medium none;
+		-webkit-border-radius: 4px 4px 0 0;
+		-moz-border-radius: 4px 4px 0 0;
+		-ms-border-radius: 4px 4px 0 0;
+		-o-border-radius: 4px 4px 0 0;
+		border-radius: 4px 4px 0 0;
+		color: black !important;
+		float: left;
+		font-size: 14px;
+		letter-spacing: 0.3px;
+		padding: 20px;
+		width: 100%;
+		resize:vertical;
+		outline:none;
+		border: 1px solid #F2F2F2;
+	}
+
+	.status-upload ul {
+		float: left;
+		list-style: none outside none;
+		margin: 0;
+		padding: 0 0 0 15px;
+		width: auto;
+	}
+	.status-upload ul > li {
+		float: left;
+	}
+	.status-upload ul > li > a {
+		-webkit-border-radius: 4px;
+		-moz-border-radius: 4px;
+		-ms-border-radius: 4px;
+		-o-border-radius: 4px;
+		border-radius: 4px;
+		color: #777777;
+		float: left;
+		font-size: 14px;
+		height: 30px;
+		line-height: 30px;
+		margin: 10px 0 10px 10px;
+		text-align: center;
+		-webkit-transition: all 0.4s ease 0s;
+		-moz-transition: all 0.4s ease 0s;
+		-ms-transition: all 0.4s ease 0s;
+		-o-transition: all 0.4s ease 0s;
+		transition: all 0.4s ease 0s;
+		width: 30px;
+		cursor: pointer;
+	}
+	.status-upload ul > li > a:hover {
+		background: none repeat scroll 0 0 #606060;
+		color: #fff;
+	}
+	.status-upload form button {
+		border: medium none;
+		-webkit-border-radius: 4px;
+		-moz-border-radius: 4px;
+		-ms-border-radius: 4px;
+		-o-border-radius: 4px;
+		border-radius: 4px;
+		color: #fff;
+		float: right;
+		font-family: Lato;
+		font-size: 14px;
+		letter-spacing: 0.3px;
+		margin-right: 9px;
+		margin-top: 9px;
+		padding: 6px 15px;
+	}
+	.dropdown > a > span.green:before {
+		border-left-color: #2dcb73;
+	}
+	.status-upload form button > i {
+		margin-right: 7px;
+	}
+}
+
+
+.animate-enter, 
+.animate-leave
+{ 
+    -webkit-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    position: relative;
+    display: block;
+} 
+
+.animate-enter.animate-enter-active, 
+.animate-leave {
+    opacity: 1;
+    top: 0;
+    height: 30px;
+}
+
+.animate-leave.animate-leave-active,
+.animate-enter {
+    opacity: 0;
+    top: -50px;
+    height: 0px;
+}
+
+.custom-alert {
+	padding: 15px !important;
+	color: black !important;
+}
