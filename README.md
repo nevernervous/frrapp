@@ -17,6 +17,7 @@ Content (comments)
 
 Go to www and drag-and-drop index.html into your browser. It will run from there.
 
+
 ## Project structure
 * pubapp/
 * mock_backend/
