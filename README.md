@@ -27,16 +27,14 @@ Go to www and drag-and-drop index.html into your browser. It will run from there
 * README.md
 
 #### Description of these folders and files:
-=======
-
-
 
 Project structure
+
 pubapp/
 
-    mock_end -- contains sample data for sparrest mock backend
+    mock_end/ -- contains sample data for sparrest mock backend
     
-    www -- contains all files relevant to the frontend
+    www/ -- contains all files relevant to the frontend
     
     gulpfile.js -- contains tasks to run static server (to serve files)
     and API server (to serve dynamic content from SPARREST)
