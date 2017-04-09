@@ -1,4 +1,5 @@
 # refactor_frrapp
+
 ## Setup
 Install NodeJS to get NPM (https://nodejs.org/en/download/)
 
@@ -26,15 +27,22 @@ Go to www and drag-and-drop index.html into your browser. It will run from there
 * README.md
 
 #### Description of these folders and files:
-mock_end -- contains sample data for sparrest mock backend
+=======
 
-www -- contains all files relevant to the frontend
 
-gulpfile.js -- contains tasks to run static server (to serve files)
-and API server (to serve dynamic content from SPARREST)
 
-ns-config.json -- SPARREST server configuratin file
+Project structure
+pubapp/
 
-package.json -- contains dependencies for project
-
-README.md -- instructions to set up project
+    mock_end -- contains sample data for sparrest mock backend
+    
+    www -- contains all files relevant to the frontend
+    
+    gulpfile.js -- contains tasks to run static server (to serve files)
+    and API server (to serve dynamic content from SPARREST)
+    
+    ns-config.json -- SPARREST server configuratin file
+    
+    package.json -- contains dependencies for project
+    
+    README.md -- instructions to set up project
