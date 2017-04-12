@@ -30,7 +30,7 @@
 	}
 
 	app.config(function($stateProvider, $urlRouterProvider, $controllerProvider){
-		var origController = app.controller
+		var origController = app.controller;
 		app.controller = function (name, constructor, $rootScope){
 			$controllerProvider.register(name, constructor);
 			return origController.apply(this, arguments);
@@ -72,6 +72,7 @@
 	        var pos = position;
 		    var duration = 2000; //milliseconds
 
+
 		    //Scroll to the exact position
 		    $document.scrollTop(pos, duration);
 		};
@@ -81,17 +82,40 @@
 		});
 	})
 	.service('articleListService', ['$http', '$rootScope', function($http, $rootScope) {
-	    
-	    function getAllArticles() {
-	    	return $http.get("http://localhost:8888/api/articles", {});
+
+		function getAllArticles() {
+	    	return new Promise(function (resolve, reject) {
+                $http.get("http://localhost:8888/api/articles", {})
+                    .success(function (response) {
+						resolve(response);
+
+                    }).error(function (response) {
+                    	reject(response);
+                });
+            });
+
 	    }
 
 	    function getComments() {
-	    	return $http.get("http://localhost:8888/api/comments", {});
+            return new Promise(function (resolve, reject) {
+                return $http.get("http://localhost:8888/api/comments", {})
+                    .success(function (response) {
+                        resolve(response);
+                    }).error(function (response) {
+                    	reject(response);
+                	});
+            });
 	    }
 
 	    function uploadComment(comment) {
-	    	return $http.post("http://localhost:8888/api/comments", comment, {});
+            return new Promise(function (resolve, reject) {
+                return $http.post("http://localhost:8888/api/comments", comment, {})
+                    .success(function (response) {
+                        resolve(response);
+                    }).error(function (response) {
+                        reject(response);
+                    });
+            });
 	    }
 
 	    return {
@@ -113,7 +137,7 @@
 		};
 	
 	    function convertToReadableDate(dateStr) {
-			var date = new Date(dateStr)
+			var date = new Date(dateStr);
 			var date2 = date.toDateString().split(' ');
 			var readable = days[date.getDay()] + ' ' + date2[1] + ' ' + date2[2] + ', ' + date2[3];
 			return readable;
@@ -123,49 +147,62 @@
 		    return Object.keys(obj).length === 0;
 		}
 
-		function createCookie(name,value,days) {
-			if (days) {
-				var date = new Date();
-				date.setTime(date.getTime()+(days*24*60*60*1000));
-				var expires = "; expires="+date.toGMTString();
-			}
-			else var expires = "";
-			document.cookie = name+"="+value+expires+"; path=/";
-		}
+		// function createCookie(name,value,days) {
+		// 	if (days) {
+		// 		var date = new Date();
+		// 		date.setTime(date.getTime()+(days*24*60*60*1000));
+		// 		var expires = "; expires="+date.toGMTString();
+		// 	}
+		// 	else var expires = "";
+		// 	document.cookie = name+"="+value+expires+"; path=/";
+		// }
+        //
+		// function readCookie(name) {
+		// 	var nameEQ = name + "=";
+		// 	var ca = document.cookie.split(';');
+		// 	for(var i=0;i < ca.length;i++) {
+		// 		var c = ca[i];
+		// 		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		// 		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+		// 	}
+		// 	return null;
+		// }
+        //
+		// function eraseCookie(name) {
+		// 	createCookie(name,"",-1);
+		// }
 
-		function readCookie(name) {
-			var nameEQ = name + "=";
-			var ca = document.cookie.split(';');
-			for(var i=0;i < ca.length;i++) {
-				var c = ca[i];
-				while (c.charAt(0)==' ') c = c.substring(1,c.length);
-				if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-			}
-			return null;
-		}
 
-		function eraseCookie(name) {
-			createCookie(name,"",-1);
-		}
-
-		function likeArticle(id, index) {
-			var name = "article" + id;
-			value = index;
-			days = 365;
-			createCookie(name, value, days);
+		function likeArticle(id) {
+			return new Promise(function (resolve, reject) {
+				try {
+                    var name = "article" + id;
+                    localStorage.setItem(name, id);
+                    resolve();
+				}catch (err) {
+					reject(err);
+				}
+            });
 		};
 
 		function unlikeArticle(id) {
-			eraseCookie('article' + id);
+            return new Promise(function (resolve, reject) {
+            	try{
+					localStorage.removeItem("article" + id);
+					resolve();
+                }catch(err) {
+            		reject(err);
+				}
+            });
 		};
 
 	    return {
 	    	convertToReadableDate: convertToReadableDate,
 	    	likeArticle: likeArticle,
 	    	unlikeArticle: unlikeArticle,
-	    	createCookie: createCookie,
-	    	readCookie: readCookie,
-	    	eraseCookie: eraseCookie
+	    	// createCookie: createCookie,
+	    	// readCookie: readCookie,
+	    	// eraseCookie: eraseCookie
 	    }
 	}])
 	app.directive("scroll", function ($window) {

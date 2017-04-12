@@ -1,11 +1,15 @@
 angular.module('articledetails', [])
-.controller('articleDetailsController', ['$scope', '$rootScope', '$state', '$timeout', 'articleListService', 'utilService',
-function($scope, $rootScope, $state, $timeout, articleListService, utilService) {
+.controller('articleDetailsController', ['$scope', '$rootScope', '$state', '$timeout', '$location','articleListService', 'utilService',
+function($scope, $rootScope, $state, $timeout, $location, articleListService, utilService) {
 
-	$scope.wordsLeft = 120;
+	$scope.MAX_COMMENT_LENGTH = 120;
 	$scope.fontSize = 18;
 	$scope.article = {
-		id: 9999
+		id: $location.search().id
+	}
+
+	if (localStorage.getItem("article" + $scope.article.id) !== null) {
+		$scope.article.thumbsUp = true;
 	}
 
 	$scope.incrementFont = function() {
@@ -16,7 +20,7 @@ function($scope, $rootScope, $state, $timeout, articleListService, utilService) 
 	};
 
 	$scope.getArticle = function() {
-		//$scope.article = articleListService.getActiveArticle();
+		$scope.article = articleListService.getAllArticles();
 	};
 	$scope.getArticle();
 
@@ -34,11 +38,21 @@ function($scope, $rootScope, $state, $timeout, articleListService, utilService) 
 	};
 
 	$scope.likeArticle = function(articleID) {
-		$scope.article['thumbsUp'] = true;
+		utilService.likeArticle(articleID)
+            .then(function () {
+            	$scope.$apply(function () {
+                    $scope.article['thumbsUp'] = true;
+                });
+            });
 	};
 
 	$scope.unlikeArticle = function(articleID) {
-		delete $scope.article['thumbsUp'];
+        utilService.unlikeArticle(articleID)
+			.then(function () {
+                $scope.$apply(function () {
+                    delete $scope.article['thumbsUp'];
+                });
+            });
 	};
 
 	$scope.convertToReadableDate = function(dateStr) {
@@ -67,10 +81,12 @@ function($scope, $rootScope, $state, $timeout, articleListService, utilService) 
 
 	$scope.getNumComments = function() {
 		articleListService.getComments()
-			.success(function(response) {
-				$scope.numComments = response.length;
+			.then(function(response) {
+                $scope.$apply(function () {
+                    $scope.numComments = response.length;
+                });
 			})
-			.error(function(response) {
+			.catch(function(response) {
 				console.log("Could not get the number of comments. Are you connected to the backend server?");
 			});
 	};
@@ -86,21 +102,23 @@ function($scope, $rootScope, $state, $timeout, articleListService, utilService) 
 		$timeout(function() {
 			$scope.showing = false;
 			articleListService.getComments()
-				.success(function(response){
+				.then(function(response){
+					$scope.$apply(function () {
+                        $scope.comments = response;
+                        $scope.status_hide = true;
 
-					$scope.comments = response;
-					$scope.status_hide = true;
+                        for(var i = 0 ; i < $scope.comments.length; i++) {
 
-					for(var i = 0 ; i < $scope.comments.length; i++) {
+                            // if comment is empty, remove it
+                            if(isEmpty($scope.comments[i])) {
+                                $scope.comments.splice(i, 1);
+                            }
 
-						// if comment is empty, remove it
-						if(isEmpty($scope.comments[i])) {
-							$scope.comments.splice(i, 1);
-						}
+                            $scope.comments[i]['date'] = new Date($scope.comments[i]['date']);
+                        }
+                    });
 
-						$scope.comments[i]['date'] = new Date($scope.comments[i]['date']);
-					}
-				}).error(function(response) {
+				}).catch(function(response) {
 					console.log(response);
 					
 					$scope.alert = { type: 'danger', 
@@ -128,35 +146,14 @@ function($scope, $rootScope, $state, $timeout, articleListService, utilService) 
 					getMinutes();
 
 		articleListService.uploadComment($scope.newComment)
-			.success(function(response) {
+			.then(function(response) {
 				$scope.getComments(true);
 				$scope.uploading = false;
 				$scope.getNumComments();
-			}).error(function(response) {
+			}).catch(function(response) {
 				console.log(response);
 				$scope.uploading = false;
 			});
-	};
-
-	$scope.checkWordLen = function(len) {
-		var wordLen = 120,
-		len; // Maximum word length
-	
-		len = $('#comment_body').val().split(/[\s]+/);
-		if (len.length > wordLen) { 
-			if ( event.keyCode == 46 || event.keyCode == 8 ) { // Allow backspace and delete buttons
-		    } else if (event.keyCode < 48 || event.keyCode > 57 ) { //all other buttons
-		    	event.preventDefault();
-		    }
-		}
-
-		$scope.wordsLeft = (wordLen) - len.length;
-		$('.words-left').html($scope.wordsLeft+ ' words left');
-		if($scope.wordsLeft == 0) {
-			$('.words-left').css({
-				'background':'red'
-			}).prepend('<i class="fa fa-exclamation-triangle"></i>');
-		}
 	};
 
 	/************* SCROLL TO TOP *****************/
@@ -168,4 +165,24 @@ function($scope, $rootScope, $state, $timeout, articleListService, utilService) 
 	    //Scroll to the exact position
 	    $document.scrollTop(pos, duration);
 	};
-}]);
+}]).filter('articleDate', function ($filter) {
+	return function (dateString) {
+		var date = new Date(dateString);
+		var today = new Date();
+		var diff = Math.floor((today - date) / 1000);
+        var result = $filter('date')(date, "EEEE MMM dd, yyyy, h:mm a");
+		if(diff < 60) {
+			result = diff + 'seconds ago';
+		}else if(diff < 3600) {
+			result = Math.floor(diff / 60) + ' minutes ago';
+		}else if (diff < 3600 * 24) {
+            result = Math.floor(diff / 3600) + ' hours ago';
+		}else if (diff < 3600 * 24 * 2) {
+			var yesterday = today;
+			yesterday.setDate(yesterday.getDate() - 1);
+			if (date.getDate() == yesterday.getDate())
+				result = 'Yesterday' + $filter('date')(date, "h:mm a");
+		}
+		return result;
+    }
+});

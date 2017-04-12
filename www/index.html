@@ -48,7 +48,7 @@
   <script src="lib/angular/js/angular-animate.js"></script>
   <script src="lib/angular/js/angular-ui-router.js"></script>
   <script src="lib/angular/js/angular-ui-bootstrap-tpls.js"></script>
-  <script src="lib/angular-scroll/js/angular-scroll.min.js""></script>
+  <script src="lib/angular-scroll/js/angular-scroll.min.js"></script>
 
   <!-- business logic -->
   <script src=" js/app.js"></script>
@@ -68,7 +68,7 @@
   <div class="top-container">
     <div class="navbar-header">
       <a class="navbar-brand" ui-sref="home" id="site_title">
-        <img src=" img/logo.svg" alt="" id="brandLogo"><span>&ensp;<h1 class="site-title">PUBAPP</h1></span>
+        <img src=" img/logo.svg" alt="" class="brandLogo"><span>&ensp;<h1 class="site-title">PUBAPP</h1></span>
       </a>
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarTop" aria-expanded="false" aria-controls="navbar">
         <span class="sr-only">Toggle navigation</span>
@@ -151,14 +151,13 @@
                       <a href="#" class="ng-binding">Rebecca Manning</a>
                       <br>
                       <div class="date_details ng-binding">
-                          Sunday Feb 05, 2017<br>
-                          12:10pm
+                          {{article.date_published + " " + article.time_published | articleDate}}
                       </div>
                   </div>
               </div>
               <div class="panel-body">
                   <div class="article-picture">
-                      <a href=" views/details.html">
+                      <a ng-href="views/details.html#/?id={{article.id}}">
                           <picture>
                               <source class="grayscale" srcset=" img/articles/ducks_sm.jpg" media="(max-width: 300px)" title="Nulla suscipit eu enim quis dignissim">
                               <source class="grayscale" srcset=" img/articles/ducks_md.jpg" media="(max-width: 700px)" title="Nulla suscipit eu enim quis dignissim">
@@ -263,7 +262,7 @@
     <div class="row">
       <a id="logoFooter" href="#">
           <span>
-            <img src=" img/logo.svg" alt="" id="brandLogo"><span>&ensp;<h1 class="site-title">PUBAPP</h1>
+            <img src=" img/logo.svg" alt="" class="brandLogo"><span>&ensp;<h1 class="site-title">PUBAPP</h1>
           </span>
       </a>
     </div>
@@ -331,7 +330,7 @@
 
 <!-- bootstrap material design -->
 <script src=" lib/bootstrap-material-design/js/material.min.js"></script>
-<script src=" lib/bootstrap-material-design/js/ripples.min.js""></script>
+<script src=" lib/bootstrap-material-design/js/ripples.min.js"></script>
 
 <script>
   $(function() {

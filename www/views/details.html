@@ -45,7 +45,7 @@
   <script src="../lib/angular/js/angular-animate.js"></script>
   <script src="../lib/angular/js/angular-ui-router.js"></script>
   <script src="../lib/angular/js/angular-ui-bootstrap-tpls.js"></script>
-  <script src="../lib/angular-scroll/js/angular-scroll.min.js""></script>
+  <script src="../lib/angular-scroll/js/angular-scroll.min.js"></script>
 
   <!-- bootstrap material design -->
   <link rel="stylesheet" type="text/css" href="../lib/bootstrap-material-design/css/bootstrap-material-design.min.css">
@@ -68,7 +68,7 @@
   <div class="top-container">
     <div class="navbar-header">
       <a class="navbar-brand" href="../index.html" id="site_title">
-        <img src="../img/logo.svg" alt="" id="brandLogo"><span>&ensp;<h1 class="site-title">PUBAPP</h1></span>
+        <img src="../img/logo.svg" alt="" class="brandLogo"><span>&ensp;<h1 class="site-title">PUBAPP</h1></span>
       </a>
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarTop" aria-expanded="false" aria-controls="navbar">
         <span class="sr-only">Toggle navigation</span>
@@ -141,9 +141,7 @@
                     <a href="#">Rebecca Manning</a>
                     <br/>
                     <div class="date_details">
-                        Sunday Feb 05, 2017
-                        <br/>
-                        12:10pm
+                        {{"Sunday Feb 05, 2017 12:10 pm " | articleDate}}
                     </div>
                 </div>
             </div>
@@ -341,11 +339,12 @@
                   </div>
                   <div class="col-sm-12 form-group comment-footer">
                     <label class="form-group" id="leaveCommentLabel">Comment:</label>
-              <textarea id="comment_body" type="text" placeholder="Pri cu inani inermis vivendo, duo in elitr definitionem." ng-keyup="checkWordLen(this);" name="commentBody" required ng-model="newComment.comment"></textarea>
+              <textarea id="comment_body" type="text" placeholder="Pri cu inani inermis vivendo, duo in elitr definitionem." name="commentBody" required ng-model="newComment.comment" maxlength="120"></textarea>
 
               <div class="bottom">
-                <span style="vertical-align: middle;">
-                  {{wordsLeft}} words remaining.
+                <span style="vertical-align: middle;" >
+                    <i class="fa fa-exclamation-triangle" ng-show="(MAX_COMMENT_LENGTH - newComment.comment.length) == 0"></i>
+                  {{MAX_COMMENT_LENGTH - newComment.comment.length}} words remaining.
                 </span>
                 <button type="submit" class="btn btn-success green" ng-click="uploadNewComment()" ng-disabled="commentUploadForm.$invalid || wordsLeft > 120"><i class="fa fa-share"></i> submit</button>
               </div>
