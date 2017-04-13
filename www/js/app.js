@@ -83,6 +83,7 @@
 	})
 	.service('articleListService', ['$http', '$rootScope', function($http, $rootScope) {
 
+
 		function getAllArticles() {
 	    	return new Promise(function (resolve, reject) {
                 $http.get("http://localhost:8888/api/articles", {})

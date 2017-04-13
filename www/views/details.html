@@ -339,12 +339,12 @@
                   </div>
                   <div class="col-sm-12 form-group comment-footer">
                     <label class="form-group" id="leaveCommentLabel">Comment:</label>
-              <textarea id="comment_body" type="text" placeholder="Pri cu inani inermis vivendo, duo in elitr definitionem." name="commentBody" required ng-model="newComment.comment" maxlength="120"></textarea>
+              <textarea id="comment_body" type="text" placeholder="Pri cu inani inermis vivendo, duo in elitr definitionem." name="commentBody" required ng-model="newComment.comment" ng-keyup="checkWordsLen($event)" ng-keydown="commentEditing($event)"></textarea>
 
               <div class="bottom">
                 <span style="vertical-align: middle;" >
-                    <i class="fa fa-exclamation-triangle" ng-show="(MAX_COMMENT_LENGTH - newComment.comment.length) == 0"></i>
-                  {{MAX_COMMENT_LENGTH - newComment.comment.length}} words remaining.
+                    <i class="fa fa-exclamation-triangle" ng-show="wordsLeft == 0"></i>
+                  {{wordsLeft}} words remaining.
                 </span>
                 <button type="submit" class="btn btn-success green" ng-click="uploadNewComment()" ng-disabled="commentUploadForm.$invalid || wordsLeft > 120"><i class="fa fa-share"></i> submit</button>
               </div>

@@ -1,8 +1,10 @@
+const MAX_COMMENT_LENGTH = 10;
+
 angular.module('articledetails', [])
 .controller('articleDetailsController', ['$scope', '$rootScope', '$state', '$timeout', '$location','articleListService', 'utilService',
 function($scope, $rootScope, $state, $timeout, $location, articleListService, utilService) {
 
-	$scope.MAX_COMMENT_LENGTH = 120;
+	$scope.wordsLeft = MAX_COMMENT_LENGTH;
 	$scope.fontSize = 18;
 	$scope.article = {
 		id: $location.search().id
@@ -62,6 +64,7 @@ function($scope, $rootScope, $state, $timeout, $location, articleListService, ut
 
 	/************** COMMENTS *****************/
 	$scope.newComment = {};
+	$scope.newComment.comment = "";
 	$scope.uploading = false;
 	$scope.already_loaded = false;
 	$scope.numComments = 0;
@@ -156,6 +159,24 @@ function($scope, $rootScope, $state, $timeout, $location, articleListService, ut
 			});
 	};
 
+    $scope.checkWordsLen = function($event) {
+		if($scope.newComment.comment == null) {
+            $scope.wordsLeft = MAX_COMMENT_LENGTH;
+		}else {
+        	$scope.wordsLeft = MAX_COMMENT_LENGTH - $scope.newComment.comment.split(/\s+/).length;
+        }
+    };
+
+    $scope.commentEditing = function ($event) {
+        console.log($event.keyCode);
+        if ($event.keyCode != 46 && $event.keyCode != 8 && ($event.keyCode < 37 || $event > 40 ))
+        	if($scope.wordsLeft == 0) {
+            	$event.preventDefault();
+            	return;
+        	}
+
+	};
+
 	/************* SCROLL TO TOP *****************/
 	$scope.scrollToCustomPos = function(position) {
 
@@ -171,7 +192,9 @@ function($scope, $rootScope, $state, $timeout, $location, articleListService, ut
 		var today = new Date();
 		var diff = Math.floor((today - date) / 1000);
         var result = $filter('date')(date, "EEEE MMM dd, yyyy, h:mm a");
-		if(diff < 60) {
+        if(diff < 0) {
+        	result = $filter('date')(today, "EEEE MMM dd, yyyy, h:mm a");
+		}else if(diff < 60) {
 			result = diff + 'seconds ago';
 		}else if(diff < 3600) {
 			result = Math.floor(diff / 60) + ' minutes ago';
