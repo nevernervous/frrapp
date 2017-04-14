@@ -162,7 +162,7 @@ function($scope, $rootScope, $state, $timeout, $location, articleListService, ut
     	var wordsArray = $scope.newComment.comment.split(/\s+/);
         var wordsCount = wordsArray.length;
         if(wordsCount > $scope.MAX_COMMENT_WORDS_COUNT) {
-			wordsArray.splice(10, wordsCount - $scope.MAX_COMMENT_WORDS_COUNT);
+			wordsArray.splice(120, wordsCount - $scope.MAX_COMMENT_WORDS_COUNT);
 			$scope.newComment.comment = wordsArray.join(" ");
 		}
         $scope.commentWordsCount = $scope.newComment.comment.split(/\s+/).length;
