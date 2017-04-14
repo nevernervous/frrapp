@@ -1,4 +1,4 @@
-const MAX_COMMENT_LENGTH = 10;
+const MAX_COMMENT_LENGTH = 120;
 
 angular.module('articledetails', [])
 .controller('articleDetailsController', ['$scope', '$rootScope', '$state', '$timeout', '$location','articleListService', 'utilService',
