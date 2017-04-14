@@ -1,14 +1,13 @@
-const MAX_COMMENT_LENGTH = 120;
-
 angular.module('articledetails', [])
 .controller('articleDetailsController', ['$scope', '$rootScope', '$state', '$timeout', '$location','articleListService', 'utilService',
 function($scope, $rootScope, $state, $timeout, $location, articleListService, utilService) {
 
-	$scope.wordsLeft = MAX_COMMENT_LENGTH;
+	$scope.MAX_COMMENT_WORDS_COUNT= 120;
+	$scope.commentWordsCount = 0;
 	$scope.fontSize = 18;
 	$scope.article = {
 		id: $location.search().id
-	}
+	};
 
 	if (localStorage.getItem("article" + $scope.article.id) !== null) {
 		$scope.article.thumbsUp = true;
@@ -159,23 +158,15 @@ function($scope, $rootScope, $state, $timeout, $location, articleListService, ut
 			});
 	};
 
-    $scope.checkWordsLen = function($event) {
-		if($scope.newComment.comment == null) {
-            $scope.wordsLeft = MAX_COMMENT_LENGTH;
-		}else {
-        	$scope.wordsLeft = MAX_COMMENT_LENGTH - $scope.newComment.comment.split(/\s+/).length;
-        }
-    };
-
-    $scope.commentEditing = function ($event) {
-        console.log($event.keyCode);
-        if ($event.keyCode != 46 && $event.keyCode != 8 && ($event.keyCode < 37 || $event > 40 ))
-        	if($scope.wordsLeft == 0) {
-            	$event.preventDefault();
-            	return;
-        	}
-
-	};
+    $scope.checkComment = function () {
+    	var wordsArray = $scope.newComment.comment.split(/\s+/);
+        var wordsCount = wordsArray.length;
+        if(wordsCount > $scope.MAX_COMMENT_WORDS_COUNT) {
+			wordsArray.splice(10, wordsCount - $scope.MAX_COMMENT_WORDS_COUNT);
+			$scope.newComment.comment = wordsArray.join(" ");
+		}
+        $scope.commentWordsCount = $scope.newComment.comment.split(/\s+/).length;
+    }
 
 	/************* SCROLL TO TOP *****************/
 	$scope.scrollToCustomPos = function(position) {
